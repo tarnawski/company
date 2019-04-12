@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Company\Domain\Company\Contract;
+namespace Company\Domain\Company\Repository;
 
-use Company\Domain\Company\Company;
-use Company\Domain\Company\CompanyIdentity;
+
+use Company\Domain\Entity\Company;
+use Company\Domain\ValueObject\CompanyIdentity;
 
 interface CompanyRepositoryInterface
 {

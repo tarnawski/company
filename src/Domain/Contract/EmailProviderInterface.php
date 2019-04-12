@@ -1,8 +1,8 @@
 <?php
 
-namespace Company\Domain\SenderService\Contract;
+namespace Company\Domain\Contract;
 
-use Company\Domain\Company\Email;
+use Company\Domain\ValueObject\Email;
 use Company\Domain\SenderService\ValueObject\EmailMessage;
 
 interface EmailProviderInterface

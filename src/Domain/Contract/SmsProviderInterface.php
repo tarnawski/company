@@ -1,8 +1,8 @@
 <?php
 
-namespace Company\Domain\SenderService\Contract;
+namespace Company\Domain\Contract;
 
-use Company\Domain\Company\Phone;
+use Company\Domain\ValueObject\Phone;
 use Company\Domain\SenderService\ValueObject\SmsMessage;
 
 interface SmsProviderInterface

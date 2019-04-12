@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Company\Infrastructure\Communication\EmailProvider;
 
-use Company\Domain\Company\Phone;
-use Company\Domain\SenderService\Contract\SmsProviderInterface;
+
+use Company\Domain\Contract\SmsProviderInterface;
 use Company\Domain\SenderService\ValueObject\SmsMessage;
+use Company\Domain\ValueObject\Phone;
 
 class SendGrid implements SmsProviderInterface
 {
