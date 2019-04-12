@@ -16,7 +16,7 @@ class CompanyRepository implements CompanyRepositoryInterface
      */
     public function findByIdentity(CompanyIdentity $identity): Company
     {
-        // TODO: Implement get() method.
+        // TODO: Implement findByIdentity() method.
     }
 
     /**
@@ -24,6 +24,6 @@ class CompanyRepository implements CompanyRepositoryInterface
      */
     public function persist(Company $company): void
     {
-        // TODO: Implement add() method.
+        // TODO: Implement persist() method.
     }
 }
