@@ -4,16 +4,40 @@ declare(strict_types=1);
 
 namespace Company\Application\Command;
 
-use Company\Domain\Company\CompanyIdentity;
-use Company\Domain\Company\Email;
-use Company\Domain\Company\Employee;
-use Company\Domain\Company\Phone;
-use Company\Domain\Company\Contract\CompanyRepositoryInterface;
+use Company\Domain\Company\Repository\CompanyRepositoryInterface;
+use Company\Domain\CompanyService;
+use Company\Domain\Entity\Employee;
+use Company\Domain\SenderService\SenderService;
+use Company\Domain\SenderService\ValueObject\EmailMessage;
+use Company\Domain\SenderService\ValueObject\SmsMessage;
+use Company\Domain\ValueObject\CompanyIdentity;
+use Company\Domain\ValueObject\Email;
+use Company\Domain\ValueObject\Phone;
 
 class AddEmployeeToCompanyCommandHandler
 {
+    /** @var CompanyService */
+    private $companyService;
+
+    /** @var SenderService */
+    private $senderService;
+
     /** @var CompanyRepositoryInterface */
     private $companyRepository;
+
+    /**
+     * AddEmployeeToCompanyCommandHandler constructor.
+     * @param CompanyService $companyService
+     * @param SenderService $senderService
+     * @param CompanyRepositoryInterface $companyRepository
+     */
+    public function __construct(CompanyService $companyService, SenderService $senderService, CompanyRepositoryInterface $companyRepository)
+    {
+        $this->companyService = $companyService;
+        $this->senderService = $senderService;
+        $this->companyRepository = $companyRepository;
+    }
+
 
     public function handle(AddEmployeeToCompanyCommand $command): void
     {
@@ -28,9 +52,16 @@ class AddEmployeeToCompanyCommandHandler
             new Phone($command->getPhone())
         );
 
-        $company->assignEmployee($employee);
+        $this->companyService->assignEmployeeToCompany($employee, $company);
 
-        // TODO handle infrastructure exception
-        $this->companyRepository->persist($company);
+        $this->senderService->sendEmailToEmployee(
+            new EmailMessage('Hi!', 'Welcome on board!'),
+            $employee
+        );
+
+        $this->senderService->sendSmsToEmployee(
+            new SmsMessage('Welcome on board!'),
+            $employee
+        );
     }
 }

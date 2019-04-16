@@ -26,23 +26,6 @@ class Employee
     private $phone;
 
     /**
-     * Employee constructor.
-     * @param EmployeeIdentity $identity
-     * @param string           $firstName
-     * @param string           $lastName
-     * @param Email            $email
-     * @param Phone|null       $phone
-     */
-    public function __construct(EmployeeIdentity $identity, $firstName, $lastName, Email $email, $phone = null)
-    {
-        $this->identity = $identity;
-        $this->firstName = $firstName;
-        $this->lastName = $lastName;
-        $this->email = $email;
-        $this->phone = $phone;
-    }
-
-    /**
      * @return EmployeeIdentity
      */
     public function getIdentity(): EmployeeIdentity
@@ -109,7 +92,7 @@ class Employee
     /**
      * @return Phone|null
      */
-    public function getPhone()
+    public function getPhone(): Phone
     {
         return $this->phone;
     }
@@ -117,7 +100,7 @@ class Employee
     /**
      * @param Phone|null $phone
      */
-    public function setPhone($phone)
+    public function setPhone(Phone $phone)
     {
         $this->phone = $phone;
     }

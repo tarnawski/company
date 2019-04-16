@@ -8,6 +8,8 @@ use Company\Domain\Company\Repository\CompanyRepositoryInterface;
 use Company\Domain\Entity\Company;
 use Company\Domain\Entity\Employee;
 use Company\Domain\Exception\CompanyException;
+use Company\Domain\ValueObject\CompanyIdentity;
+use Company\Domain\ValueObject\Domain;
 
 class CompanyService
 {
@@ -23,6 +25,26 @@ class CompanyService
     public function __construct(CompanyRepositoryInterface $companyRepository)
     {
         $this->companyRepository = $companyRepository;
+    }
+
+    /**
+     * @param CompanyIdentity $identity
+     * @param string $name
+     * @param Domain $domain
+     * @return Company
+     */
+    public function createCompany(CompanyIdentity $identity, string $name, Domain $domain): Company
+    {
+        // Here we can use factory
+
+        $company = new Company();
+        $company->setIdentity($identity);
+        $company->setDomain($domain);
+        $company->setName($name);
+
+        $this->companyRepository->persist($company);
+
+        return $company;
     }
 
     /**

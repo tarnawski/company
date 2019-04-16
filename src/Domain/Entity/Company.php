@@ -25,26 +25,6 @@ class Company
     private $employees;
 
     /**
-     * Company constructor.
-     * @param CompanyIdentity $identity
-     * @param string $name
-     * @param Domain $domain
-     * @param array $employees
-     * @throws CompanyException
-     */
-    public function __construct(CompanyIdentity $identity, string $name, Domain $domain, array $employees = [])
-    {
-        if (count($employees) >= self::MAX_NUMBER_OF_EMPLOYEES) {
-            throw new CompanyException('The maximum number of employees has been reached.');
-        }
-
-        $this->identity = $identity;
-        $this->name = $name;
-        $this->domain = $domain;
-        $this->employees = $employees;
-    }
-
-    /**
      * @return CompanyIdentity
      */
     public function getIdentity(): CompanyIdentity

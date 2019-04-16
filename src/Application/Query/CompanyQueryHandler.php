@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Company\Application\Query;
 
-use Company\Domain\Company\Company;
-use Company\Domain\Company\CompanyIdentity;
-use Company\Domain\Contract\CompanyRepositoryInterface;
+
+use Company\Domain\Company\Repository\CompanyRepositoryInterface;
+use Company\Domain\Entity\Company;
+use Company\Domain\ValueObject\CompanyIdentity;
 
 class CompanyQueryHandler
 {

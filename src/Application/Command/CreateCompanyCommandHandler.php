@@ -4,27 +4,34 @@ declare(strict_types=1);
 
 namespace Company\Application\Command;
 
-use Company\Domain\Company\Company;
-use Company\Domain\Company\CompanyIdentity;
-use Company\Domain\Company\InternetDomain;
-use Company\Domain\Contract\CompanyRepositoryInterface;
+use Company\Domain\CompanyService;
+use Company\Domain\ValueObject\CompanyIdentity;
+use Company\Domain\ValueObject\Domain;
 
 class CreateCompanyCommandHandler
 {
-    /** @var CompanyRepositoryInterface */
-    private $companyRepository;
+    /** @var CompanyService */
+    private $companyService;
+
+    /**
+     * @param CompanyService $companyService
+     */
+    public function __construct(CompanyService $companyService)
+    {
+        $this->companyService = $companyService;
+    }
 
     /**
      * @param CreateCompanyCommand $command
      */
     public function handle(CreateCompanyCommand $command): void
     {
-        $company = new Company(
+        // Here we should catch business and infrastructure exceptions
+
+        $this->companyService->createCompany(
             new CompanyIdentity($command->getIdentity()),
             $command->getName(),
-            new InternetDomain($command->getDomain())
+            new Domain($command->getDomain())
         );
-
-        $this->companyRepository->persist($company);
     }
 }

@@ -38,6 +38,11 @@ class SenderService
         return $this->emailProvider->send($message, $employee->getEmail());
     }
 
+    /**
+     * @param SmsMessage $message
+     * @param Employee $employee
+     * @return bool
+     */
     public function sendSmsToEmployee(SmsMessage $message, Employee $employee): bool
     {
         return $this->smsProvider->send($message, $employee->getPhone());
