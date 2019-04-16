@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace Company\Domain;
 
 use Company\Domain\Company\Repository\CompanyRepositoryInterface;
+use Company\Domain\Company\Repository\EmployeeRepositoryInterface;
 use Company\Domain\Entity\Company;
 use Company\Domain\Entity\Employee;
 use Company\Domain\Exception\CompanyException;
 use Company\Domain\ValueObject\CompanyIdentity;
 use Company\Domain\ValueObject\Domain;
+use Company\Domain\ValueObject\Email;
+use Company\Domain\ValueObject\EmployeeIdentity;
+use Company\Domain\ValueObject\Phone;
 
 class CompanyService
 {
@@ -18,13 +22,18 @@ class CompanyService
     /** @var CompanyRepositoryInterface */
     private $companyRepository;
 
+    /** @var EmployeeRepositoryInterface */
+    private $employeeRepository;
+
     /**
      * CompanyService constructor.
      * @param CompanyRepositoryInterface $companyRepository
+     * @param EmployeeRepositoryInterface $employeeRepository
      */
-    public function __construct(CompanyRepositoryInterface $companyRepository)
+    public function __construct(CompanyRepositoryInterface $companyRepository, EmployeeRepositoryInterface $employeeRepository)
     {
         $this->companyRepository = $companyRepository;
+        $this->employeeRepository = $employeeRepository;
     }
 
     /**
@@ -48,6 +57,36 @@ class CompanyService
     }
 
     /**
+     * @param EmployeeIdentity $identity
+     * @param string $firstName
+     * @param string $lastName
+     * @param Phone $phone
+     * @param Email $email
+     * @return Employee
+     */
+    public function createEmployee(
+        EmployeeIdentity $identity,
+        string $firstName,
+        string $lastName,
+        Phone $phone,
+        Email $email
+    ): Employee {
+
+        // Here we can use factory
+
+        $employee = new Employee();
+        $employee->setIdentity($identity);
+        $employee->setFirstName($firstName);
+        $employee->setLastName($lastName);
+        $employee->setPhone($phone);
+        $employee->setEmail($email);
+
+        $this->employeeRepository->persist($employee);
+
+        return $employee;
+    }
+
+    /**
      * @param Employee $employee
      * @param Company  $company
      * @throws CompanyException
@@ -62,7 +101,7 @@ class CompanyService
             throw new CompanyException('This user not belongs to company domain.');
         }
 
-        $company->addEmployee($employee);
-        $this->companyRepository->persist($company);
+        $employee->setCompany($company);
+        $this->employeeRepository->persist($employee);
     }
 }

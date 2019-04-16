@@ -25,6 +25,9 @@ class Employee
     /** @var Phone|null */
     private $phone;
 
+    /** @var Company */
+    private $company;
+
     /**
      * @return EmployeeIdentity
      */
@@ -103,5 +106,21 @@ class Employee
     public function setPhone(Phone $phone)
     {
         $this->phone = $phone;
+    }
+
+    /**
+     * @return Company
+     */
+    public function getCompany(): Company
+    {
+        return $this->company;
+    }
+
+    /**
+     * @param Company $company
+     */
+    public function setCompany(Company $company): void
+    {
+        $this->company = $company;
     }
 }

@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace Company\Application\Command;
 
 use Company\Domain\Company\Repository\CompanyRepositoryInterface;
+use Company\Domain\Company\Repository\EmployeeRepositoryInterface;
 use Company\Domain\CompanyService;
-use Company\Domain\Entity\Employee;
 use Company\Domain\SenderService\SenderService;
 use Company\Domain\SenderService\ValueObject\EmailMessage;
 use Company\Domain\SenderService\ValueObject\SmsMessage;
 use Company\Domain\ValueObject\CompanyIdentity;
-use Company\Domain\ValueObject\Email;
-use Company\Domain\ValueObject\Phone;
+use Company\Domain\ValueObject\EmployeeIdentity;
 
 class AddEmployeeToCompanyCommandHandler
 {
@@ -25,17 +24,25 @@ class AddEmployeeToCompanyCommandHandler
     /** @var CompanyRepositoryInterface */
     private $companyRepository;
 
+    /** @var EmployeeRepositoryInterface */
+    private $employeeRepository;
+
     /**
-     * AddEmployeeToCompanyCommandHandler constructor.
      * @param CompanyService $companyService
      * @param SenderService $senderService
      * @param CompanyRepositoryInterface $companyRepository
+     * @param EmployeeRepositoryInterface $employeeRepository
      */
-    public function __construct(CompanyService $companyService, SenderService $senderService, CompanyRepositoryInterface $companyRepository)
-    {
+    public function __construct(
+        CompanyService $companyService,
+        SenderService $senderService,
+        CompanyRepositoryInterface $companyRepository,
+        EmployeeRepositoryInterface $employeeRepository
+    ) {
         $this->companyService = $companyService;
         $this->senderService = $senderService;
         $this->companyRepository = $companyRepository;
+        $this->employeeRepository = $employeeRepository;
     }
 
 
@@ -43,15 +50,9 @@ class AddEmployeeToCompanyCommandHandler
     {
         // TODO handle infrastructure exception
         $company = $this->companyRepository->findByIdentity(new CompanyIdentity($command->getCompanyIdentity()));
+        $employee = $this->employeeRepository->findByIdentity(new EmployeeIdentity($command->getEmployeeIdentity()));
 
-        // TODO handle business exception
-        $employee = new Employee(
-            $command->getFirstName(),
-            $command->getLastName(),
-            new Email($command->getEmail()),
-            new Phone($command->getPhone())
-        );
-
+        // TODO handle domain exceptions
         $this->companyService->assignEmployeeToCompany($employee, $company);
 
         $this->senderService->sendEmailToEmployee(

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Company\Infrastructure\Persistence\PDO;
 
-use Company\Domain\Company\Company;
-use Company\Domain\Company\CompanyIdentity;
-use Company\Domain\Company\Contract\CompanyRepositoryInterface;
+use Company\Domain\Entity\Company;
+use Company\Domain\ValueObject\CompanyIdentity;
+use Company\Domain\Company\Repository\CompanyRepositoryInterface;
 
 class CompanyRepository implements CompanyRepositoryInterface
 {

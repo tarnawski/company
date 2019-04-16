@@ -20,7 +20,12 @@ class CompanyCommand
 
     public function execute()
     {
-        $command = new CreateCompanyCommand('company-identity', 'name', 'domain.eu');
+        $command = new CreateCompanyCommand(
+            'company-identity',
+            'name',
+            'domain.eu'
+        );
+
         $this->commandBus->handle($command);
     }
 }
